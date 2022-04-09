@@ -1,0 +1,5 @@
+package auldadeclasses;
+
+class Ambiente {
+
+}

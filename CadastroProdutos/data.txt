@@ -1,0 +1,1 @@
+Banana,2.4,Fruta-Morango,3.4,Fruta-Tomate,3.5,Verdura-Cebola,2.5,Verdura-Cenoura,2.5,Legume-Chuchu,2.7,Legume-

@@ -1,0 +1,6 @@
+1;Introdução à Computação;Introdução à computação e à informática, abrangendo as tecnologias utilizadas para resolver os problemas computacionais do cotidiano
+2;Análise e Modelagem de Dados;Estudo e modelagem de bancos de dados, considerando os conceitos de modelagem, entidade-relacionamento e normalização de dados
+3;Sistemas Operacionais;Estudo do funcionamento, da gerência e da organização dos sistemas operacionais
+4;Banco de Dados;Estudo, implementação e manutenção de bases de dados, considerando o uso de sistemas de gerenciamento para a definição e manipulação de dados
+5;Programação de Computadores I;Construção e codificação de algoritmos em linguagem de programação considerando técnicas sequenciais e estruturadas
+6;Programação de Computadores II;Construção de algoritmos e sua codificação em uma linguagem de programação, considerando as técnicas de programação orientada a objetos
