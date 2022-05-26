@@ -12,8 +12,8 @@ public class Produto {
     
     private int id;
     private String descricao;
-    private double valorUnitario;
-    private int qtdeEstoque;
+    private float valorUnitario;
+    private String qtdeEstoque;
 
     public int getId() {
         return id;
@@ -31,19 +31,19 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public double getValorUnitario() {
+    public float getValorUnitario() {
         return valorUnitario;
     }
 
-    public void setValorUnitario(double valorUnitario) {
+    public void setValorUnitario(float valorUnitario) {
         this.valorUnitario = valorUnitario;
     }
 
-    public int getQtdeEstoque() {
+    public String getQtdeEstoque() {
         return qtdeEstoque;
     }
 
-    public void setQtdeEstoque(int qtdeEstoque) {
+    public void setQtdeEstoque(String qtdeEstoque) {
         this.qtdeEstoque = qtdeEstoque;
     }
     
