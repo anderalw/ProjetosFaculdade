@@ -395,7 +395,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             txNome.requestFocus();
             btConsultarActionPerformed(evt);
         } else {
-            JOptionPane.showMessageDialog(this, "Id da cidade não encontrado!");
+            JOptionPane.showMessageDialog(this, "Id do fornecedor não encontrado!");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 

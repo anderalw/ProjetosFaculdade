@@ -15,6 +15,8 @@ public class Cliente {
     private String email;
     private String cpf;
     private String telefone;
+     private String endereco;
+    private String cep;
 
     public int getId() {
         return id;
@@ -54,6 +56,22 @@ public class Cliente {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
 }

@@ -4,9 +4,7 @@
  */
 package tela;
 
-import DAO.FornecedorDAO;
 import DAO.ProdutoDAO;
-import entidade.Fornecedor;
 import entidade.Produto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
