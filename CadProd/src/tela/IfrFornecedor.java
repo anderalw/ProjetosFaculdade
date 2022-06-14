@@ -21,7 +21,7 @@ import javax.swing.table.TableColumnModel;
 public class IfrFornecedor extends javax.swing.JInternalFrame {
 
     int idFornecedor = 0;
-    
+
     Validacao val = new Validacao();
 
     /**
@@ -29,7 +29,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
      */
     public IfrFornecedor() {
         initComponents();
-        
+
         Formatacao.formatarCnpj(ftfCnpj);
         Formatacao.formatarTelefone(ftfTel);
 
@@ -289,7 +289,6 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         String telForn = ftfTel.getText();
         String cnpjForn = ftfCnpj.getText();
 
-        
         Fornecedor fornecedor = new Fornecedor();
 
         fornecedor.setId(idFornecedor);
@@ -355,28 +354,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btConsultarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        ArrayList<Fornecedor> fornecedores = new ArrayList();
-
-        fornecedores = new FornecedorDAO().consultar(txfPesquisar.getText());
-
-        DefaultTableModel model = (DefaultTableModel) tblFornecedor.getModel();
-        model.setRowCount(0);
-
-        for (int i = 0; i < fornecedores.size(); i++) {
-            Object rowData[] = new Object[5];
-            rowData[0] = fornecedores.get(i).getId();
-            rowData[1] = fornecedores.get(i).getNome();
-            rowData[2] = fornecedores.get(i).getEmail();
-            rowData[3] = fornecedores.get(i).getTelefone();
-            rowData[4] = fornecedores.get(i).getCnpj();
-            model.addRow(rowData);
-        }
-        TableColumnModel columnModel = tblFornecedor.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(10);
-        columnModel.getColumn(1).setPreferredWidth(150);
-        columnModel.getColumn(2).setPreferredWidth(150);
-        columnModel.getColumn(3).setPreferredWidth(100);
-        columnModel.getColumn(4).setPreferredWidth(100);
+        new FornecedorDAO().popularTabela(tblFornecedor, txfPesquisar.getText());
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -415,7 +393,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void ftfCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ftfCnpjFocusLost
-        
+
         if (!Validacao.validarCNPJ(Formatacao.removerFormatacao(ftfCnpj.getText()))) {
             ftfCnpj.setBackground(Color.YELLOW);
         } else {

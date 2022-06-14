@@ -4,8 +4,11 @@
  */
 package DAO;
 
+import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.Compra;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -15,12 +18,34 @@ import java.util.ArrayList;
 public class CompraDAO implements IDAOT<Compra> {
 
     @Override
-    public String salvar(Compra o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String salvar(Compra compra) {
+        String retornoConsulta = "";
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "insert into compra values (default, '"
+                    + compra.getData() + "', '"
+                    + compra.getFornecedorId() + "' "
+                    + ") returning id";
+
+            System.out.println("SQL: " + sql);
+
+            ResultSet retorno = st.executeQuery(sql);
+
+            if (retorno.next()) {
+                retornoConsulta = retorno.getString(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao inserir COmpra: " + e);
+            retornoConsulta = "ERROR:" + e.toString();
+        }
+        return retornoConsulta;
     }
 
     @Override
-    public String atualizar(Compra o) {
+    public String atualizar(Compra compra) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

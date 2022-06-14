@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class PedidoDAO implements IDAOT<Pedido> {
 
     @Override
-    public String salvar(Pedido o) {
+    public String salvar(Pedido pedido) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public String atualizar(Pedido o) {
+    public String atualizar(Pedido pedido) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

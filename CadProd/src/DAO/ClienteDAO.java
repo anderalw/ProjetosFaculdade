@@ -18,17 +18,17 @@ import java.util.ArrayList;
 public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
-    public String salvar(Cliente o) {
+    public String salvar(Cliente cliente) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = " with first_insert as (insert into cliente values (default, '"
-                    + o.getNome() + "','"
-                    + o.getEmail() + "','"
-                    + o.getCpf() + "','"
-                    + o.getTelefone() + "') RETURNING id),"
+                    + cliente.getNome() + "','"
+                    + cliente.getEmail() + "','"
+                    + cliente.getCpf() + "','"
+                    + cliente.getTelefone() + "') RETURNING id),"
                     + "second_insert as (insert into endereco values (default, '"
-                    + o.getEndereco() + "','" + o.getCep() + "') RETURNING id)"
+                    + cliente.getEndereco() + "','" + cliente.getCep() + "') RETURNING id)"
                     + "insert into cliente_endereco values (default, (select id from first_insert), (select id from second_insert))";
 
             System.out.println("SQL: " + sql);
@@ -43,23 +43,23 @@ public class ClienteDAO implements IDAOT<Cliente> {
     }
 
     @Override
-    public String atualizar(Cliente o) {
+    public String atualizar(Cliente cliente) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "update cliente set "
-                    + "nome = '" + o.getNome() + "', "
-                    + "email = '" + o.getEmail() + "', "
-                    + "telefone = '" + o.getTelefone() + "', "
-                    + "cpf = '" + o.getCpf() + "' "
-                    + "where id = " + o.getId();
+                    + "nome = '" + cliente.getNome() + "', "
+                    + "email = '" + cliente.getEmail() + "', "
+                    + "telefone = '" + cliente.getTelefone() + "', "
+                    + "cpf = '" + cliente.getCpf() + "' "
+                    + "where id = " + cliente.getId();
 
             String sql2 = "update endereco set "
-                    + "descricao = '" + o.getEndereco() + "', "
-                    + "cep = '" + o.getCep() + "' where id = (select e.id from cliente c "
+                    + "descricao = '" + cliente.getEndereco() + "', "
+                    + "cep = '" + cliente.getCep() + "' where id = (select e.id from cliente c "
                     + "inner join cliente_endereco ce  on ce.cliente_id = c.id "
                     + "inner join endereco e on ce.endereco_id = e.id "
-                    + "where c.id = " + o.getId() + " ) ";
+                    + "where c.id = " + cliente.getId() + " ) ";
 
             System.out.println("SQL: " + sql + "\nSQL: " + sql2);
             int retorno = st.executeUpdate(sql);
@@ -89,7 +89,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
                     + "inner join endereco e on ce.endereco_id = e.id "
                     + "where c.id = " + id + " ) ";
             int retorno2 = st.executeUpdate(sql2);
-            
+
             String sql = "delete from cliente where id = " + id;
             int retorno = st.executeUpdate(sql);
 

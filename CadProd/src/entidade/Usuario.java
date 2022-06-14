@@ -8,15 +8,13 @@ package entidade;
  *
  * @author ander
  */
-public class Cliente {
+public class Usuario {
 
     private int id;
     private String nome;
     private String email;
-    private String cpf;
-    private String telefone;
-    private String endereco;
-    private String cep;
+    private String senha;
+    private char situacao;
 
     public int getId() {
         return id;
@@ -42,36 +40,19 @@ public class Cliente {
         this.email = email;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public char getSituacao() {
+        return situacao;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setSituacao(char situacao) {
+        this.situacao = situacao;
     }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
 }

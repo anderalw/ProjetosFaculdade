@@ -4,8 +4,6 @@
  */
 package apoio;
 
-import javax.swing.JFormattedTextField;
-
 /**
  *
  * @author Fabricio Pretto
@@ -102,10 +100,6 @@ public class Validacao {
 
         Integer[] prefixos = {2, 3, 4, 5, 7};
 
-        if (telefone.length() == 10 && java.util.Arrays.asList(prefixos).indexOf(Integer.parseInt(telefone.substring(2, 3))) == -1) {
-            return false;
-        }
-
-        return true;
+        return !(telefone.length() == 10 && java.util.Arrays.asList(prefixos).indexOf(Integer.parseInt(telefone.substring(2, 3))) == -1);
     }
 }

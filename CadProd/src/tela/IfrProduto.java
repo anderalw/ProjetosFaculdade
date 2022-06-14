@@ -38,11 +38,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         btnFechar = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblProd = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         tfPesq = new javax.swing.JTextField();
         btnPesq = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblProd = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -64,34 +64,13 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             }
         });
 
-        tblProd.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Código", "Produto", "Valor Unidade", "Estoque"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, true, false
-            };
+        jLabel4.setText("Pesquisar");
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        tfPesq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPesqActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(tblProd);
-        if (tblProd.getColumnModel().getColumnCount() > 0) {
-            tblProd.getColumnModel().getColumn(0).setResizable(false);
-            tblProd.getColumnModel().getColumn(1).setResizable(false);
-            tblProd.getColumnModel().getColumn(2).setResizable(false);
-            tblProd.getColumnModel().getColumn(3).setResizable(false);
-        }
-
-        jLabel4.setText("Pesquisar");
 
         btnPesq.setText("Pesquisar");
         btnPesq.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +79,19 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             }
         });
 
+        tblProd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblProd);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -107,26 +99,26 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(tfPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
-                        .addComponent(btnPesq)))
+                        .addComponent(btnPesq))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(tfPesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesq))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Listagem", jPanel1);
@@ -170,7 +162,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(tfEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel2);
@@ -228,7 +220,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFechar)
@@ -236,7 +228,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                     .addComponent(btnEditar)
                     .addComponent(btnExcluir)
                     .addComponent(btnConsultar))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -346,28 +338,12 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnPesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqActionPerformed
-       ArrayList<Produto> produtos = new ArrayList();
-
-        produtos = new ProdutoDAO().consultar(tfPesq.getText());
-
-        DefaultTableModel model = (DefaultTableModel) tblProd.getModel();
-        model.setRowCount(0);
-
-        for (int i = 0; i < produtos.size(); i++) {
-            Object rowData[] = new Object[5];
-            rowData[0] = produtos.get(i).getId();
-            rowData[1] = produtos.get(i).getDescricao();
-            rowData[2] = produtos.get(i).getValorUnitario();
-            rowData[3] = produtos.get(i).getQtdeEstoque();
-
-            model.addRow(rowData);
-        }
-        TableColumnModel columnModel = tblProd.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(10);
-        columnModel.getColumn(1).setPreferredWidth(150);
-        columnModel.getColumn(2).setPreferredWidth(50);
-        columnModel.getColumn(3).setPreferredWidth(50);
+       new ProdutoDAO().popularTabela(tblProd, tfPesq.getText());
     }//GEN-LAST:event_btnPesqActionPerformed
+
+    private void tfPesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPesqActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPesqActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

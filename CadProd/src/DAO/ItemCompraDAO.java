@@ -6,7 +6,7 @@ package DAO;
 
 import apoio.ConexaoBD;
 import apoio.IDAOT;
-import entidade.Fornecedor;
+import entidade.ItemCompra;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -18,49 +18,36 @@ import javax.swing.table.TableColumn;
  *
  * @author ander
  */
-public class FornecedorDAO implements IDAOT<Fornecedor> {
+public class ItemCompraDAO implements IDAOT<ItemCompra> {
 
     @Override
-    public String salvar(Fornecedor fornecedor) {
+    public String salvar(ItemCompra o) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "insert into fornecedor values (default, '"
-                    + fornecedor.getNome() + "','"
-                    + fornecedor.getEmail() + "','"
-                    + fornecedor.getTelefone() + "','"
-                    + fornecedor.getCnpj() + "')";
+            String sql = "insert into item_compra "
+                    + "values"
+                    + "(default, "
+                    + "" + o.getCompraId() + ", "
+                    + "" + o.getProdutoId() + ", "
+                    + "" + o.getQntde() + ", "
+                    + "" + o.getValor() + ")";
+
             System.out.println("SQL: " + sql);
+
             int retorno = st.executeUpdate(sql);
 
             return null;
 
         } catch (Exception e) {
-            System.out.println("Erro ao enserir Fornecedor: " + e);
+            System.out.println("Erro ao inserir item_compra: " + e);
             return e.toString();
         }
     }
 
     @Override
-    public String atualizar(Fornecedor fornecedor) {
-        try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
-            String sql = "update fornecedor set nome = '" 
-                    + fornecedor.getNome() + "', email = '"
-                    + fornecedor.getEmail() + "', telefone = '"
-                    + fornecedor.getTelefone() + "', cnpj ='"
-                    + fornecedor.getCnpj() + "' where id = "
-                    + fornecedor.getId();
-            System.out.println("SQL: " + sql);
-            int retorno = st.executeUpdate(sql);
-
-            return null;
-
-        } catch (Exception e) {
-            System.out.println("Erro ao atualizar a Fornecedor: " + e);
-            return e.toString();
-        }
+    public String atualizar(ItemCompra o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -68,80 +55,40 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "delete from fornecedor where id = " + id;
+            String sql = "delete "
+                    + "from item_compra "
+                    + "where "
+                    + "id = " + id;
+
             System.out.println("SQL: " + sql);
+
             int retorno = st.executeUpdate(sql);
 
             return null;
 
         } catch (Exception e) {
-            System.out.println("Erro ao excluir o Fornecedor: " + e);
+            System.out.println("Erro ao excluir OS_Item: " + e);
             return e.toString();
         }
+
     }
 
     @Override
-    public ArrayList<Fornecedor> consultar(String criterio) {
-        ArrayList<Fornecedor> fornecedores = new ArrayList();
-
-        try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            String sql = "SELECT * FROM fornecedor WHERE nome ILIKE '%" + criterio + "%'";
-            System.out.println("SQL: " + sql);
-            ResultSet retorno = st.executeQuery(sql);
-
-            while (retorno.next()) {
-                Fornecedor fornecedor = new Fornecedor();
-
-                fornecedor.setId(retorno.getInt("id"));
-                fornecedor.setNome(retorno.getString("nome"));
-                fornecedor.setEmail(retorno.getString("email"));
-                fornecedor.setTelefone(retorno.getString("telefone"));
-                fornecedor.setCnpj(retorno.getString("cnpj"));
-
-                fornecedores.add(fornecedor);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Erro ao consultar fornecedores" + e);
-        }
-        return fornecedores;
+    public ArrayList<ItemCompra> consultarTodos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<Fornecedor> consultarTodos() {
+    public ArrayList<ItemCompra> consultar(String criterio) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Fornecedor consultarId(int id) {
-        Fornecedor fornecedor = null;
-        try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
-            String sql = "select * from fornecedor where id = " + id;
-            System.out.println("SQL: " + sql);
-            ResultSet retorno = st.executeQuery(sql);
-
-            while (retorno.next()) {
-                fornecedor = new Fornecedor();
-
-                fornecedor.setId(retorno.getInt("id"));
-                fornecedor.setNome(retorno.getString("nome"));
-                fornecedor.setEmail(retorno.getString("email"));
-                fornecedor.setTelefone(retorno.getString("telefone"));
-                fornecedor.setCnpj(retorno.getString("cnpj"));
-
-            }
-
-        } catch (Exception e) {
-            System.out.println("Erro ao consultar fornecedores: " + e);
-
-        }
-        return fornecedor;
+    public ItemCompra consultarId(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public void popularTabela(JTable tabela, String criterio) {
+    public void popularTabela(JTable tabela, String criterio, int idcompra) {
 
         ResultSet resultadoQ;
 
@@ -151,25 +98,26 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
         // cabecalho da tabela
         Object[] cabecalho = new Object[5];
         cabecalho[0] = "ID";
-        cabecalho[1] = "Nome";
-        cabecalho[2] = "E-mail";
-        cabecalho[3] = "Telefone";
-        cabecalho[4] = "CNPJ";
+        cabecalho[1] = "ID Produto";
+        cabecalho[2] = "Descrição";
+        cabecalho[3] = "Qtde";
+        cabecalho[4] = "Valor";
 
         // cria matriz de acordo com nº de registros da tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT count(*) "
-                    + "FROM fornecedor "
-                    + "WHERE "
-                    + "nome ILIKE '%" + criterio + "%'");
+                    + "select count(*)\n"
+                    + "from produto pd, item_compra ic\n"
+                    + "where\n"
+                    + "ic.produto_id = pd.id and\n"
+                    + "ic.compra_id = " + idcompra);
 
             resultadoQ.next();
 
             dadosTabela = new Object[resultadoQ.getInt(1)][5];
 
         } catch (Exception e) {
-            System.out.println("Erro ao consultar fornecedor: " + e);
+            System.out.println("Erro ao consultar Item_compra " + e);
         }
 
         int lin = 0;
@@ -177,19 +125,19 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
         // efetua consulta na tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT * "
-                    + "FROM fornecedor "
-                    + "WHERE "
-                    + "nome ILIKE '%" + criterio + "%' "
-                    + "ORDER BY id");
+                    + "select ic.id as idci, ic.produto_id as produtoid, ic.qtde, ic.valor, p.descricao\n"
+                    + "from produto p , item_compra ic\n"
+                    + "where\n"
+                    + "ic.produto_id = p.id and\n"
+                    + "ic.compra_id= " + idcompra);
 
             while (resultadoQ.next()) {
 
-                dadosTabela[lin][0] = resultadoQ.getInt("id");
-                dadosTabela[lin][1] = resultadoQ.getString("nome");
-                dadosTabela[lin][2] = resultadoQ.getString("email");
-                dadosTabela[lin][3] = resultadoQ.getString("telefone");
-                dadosTabela[lin][4] = resultadoQ.getString("cnpj");
+                dadosTabela[lin][0] = resultadoQ.getInt("idci");
+                dadosTabela[lin][1] = resultadoQ.getString("produtoid");
+                dadosTabela[lin][2] = resultadoQ.getString("descricao");
+                dadosTabela[lin][3] = resultadoQ.getString("qtde");
+                dadosTabela[lin][4] = resultadoQ.getString("valor");
 
                 // caso a coluna precise exibir uma imagem
 //                if (resultadoQ.getBoolean("Situacao")) {
@@ -244,12 +192,9 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
                 case 1:
                     column.setPreferredWidth(140);
                     break;
-                case 2:
-                    column.setPreferredWidth(50);
-                    break;
-                case 3:
-                    column.setPreferredWidth(50);
-                    break;
+//                case 2:
+//                    column.setPreferredWidth(14);
+//                    break;
             }
         }
         // renderizacao das linhas da tabela = mudar a cor
@@ -269,5 +214,4 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
 //            }
 //        });
     }
-
 }
