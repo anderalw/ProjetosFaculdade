@@ -1,9 +1,23 @@
 package Tela;
 
+import Controle.ClienteControle;
+import Controle.ServicoControle;
+import Entidade.Cliente;
+import Entidade.Servico;
+import java.util.List;
+
 public class RelatorioTela extends javax.swing.JInternalFrame {
+
+    private ServicoControle servicoC = new ServicoControle();
+    private ClienteControle clienteC = new ClienteControle();
+    private List<Servico> listServicos = null;
+    private List<Cliente> clientes = null;
 
     public RelatorioTela() {
         initComponents();
+        this.listServicos = servicoC.listar();
+        this.clientes = clienteC.listar();
+        this.setarRelatorio();
     }
 
     @SuppressWarnings("unchecked")
@@ -155,11 +169,32 @@ public class RelatorioTela extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void atualizarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarDadosActionPerformed
-
+        this.listServicos = servicoC.listar();
+        this.clientes = clienteC.listar();
+        this.setarRelatorio();
     }//GEN-LAST:event_atualizarDadosActionPerformed
 
     public void setarRelatorio() {
+        double entradaT = 0.0;
+        double custoT = 0.0;
 
+        int servicosRealizados = 0;
+        int um = this.listServicos.size();
+        int dois = this.clientes.size();
+        double mediaDeAtendimento = um / dois;
+
+        for (Servico servico : this.listServicos) {
+            if (servico.isFinalizado()) {
+                entradaT += servico.getPrecoServico();
+                custoT += servico.getCusto();
+                servicosRealizados++;
+            }
+        }
+        double lucroT = entradaT - custoT;
+        entradaTotal.setText(String.valueOf(entradaT));
+        totalDeServicosRealizados.setText(String.valueOf(servicosRealizados));
+        lucro.setText(String.valueOf(lucroT));
+        mediaDeAtendimentoPCliente.setText(String.valueOf(mediaDeAtendimento));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

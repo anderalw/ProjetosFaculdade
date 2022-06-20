@@ -1,23 +1,23 @@
-package Controller;
+package Controle;
 
 import DAO.TipoServicoDAO;
 import Entidade.TipoServico;
 import java.util.List;
 import javax.swing.JComboBox;
 
-public class TipoServicoController {
+public class TipoServicoControle {
 
     private TipoServicoDAO Tservico;
 
-    public TipoServicoController() {
+    public TipoServicoControle() {
         this.Tservico = new TipoServicoDAO();
     }
 
-    public String inserir(TipoServico Tservico) {
+    public Boolean inserir(TipoServico Tservico) {
         return this.Tservico.inserir(Tservico);
     }
 
-    public String alterar(TipoServico Tservico) {
+    public Boolean alterar(TipoServico Tservico) {
         return this.Tservico.alterar(Tservico);
     }
 
@@ -36,7 +36,7 @@ public class TipoServicoController {
         return servico;
     }
 
-    public String deletar(int id) {
+    public Boolean deletar(int id) {
         return this.Tservico.deletar(id);
     }
 

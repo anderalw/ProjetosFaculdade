@@ -1,11 +1,44 @@
 package Tela;
 
+import Controle.AnimalControle;
+import Entidade.Animal;
+import javax.swing.JOptionPane;
+
 public class AlterarAnimal extends javax.swing.JFrame {
-    
-    
+
+    private Animal animal;
+    private VerAnimal verAnimal;
+
     public AlterarAnimal() {
-        initComponents();
     }
+
+    public AlterarAnimal(Animal animal, String nomeCliente, String sexo, VerAnimal verAnimal) {
+        initComponents();
+        cliente.setText(nomeCliente);
+        this.animal = animal;
+        this.verAnimal = verAnimal;
+        nome.setText(this.animal.getNome());
+        raca.setText(this.animal.getRaca());
+        idade.setText(Integer.toString(this.animal.getIdade()));
+        this.comboBox(sexo);
+        this.setVisible(true);
+    }
+
+    public void comboBox(String sexo) {
+        String[] sexoo = new String[2];
+
+        if (sexo.equals("M")) {
+            sexoo[0] = "M";
+            sexoo[1] = "F";
+        } else {
+            sexoo[0] = "F";
+            sexoo[1] = "M";
+        }
+
+        this.sexo.setModel(new javax.swing.DefaultComboBoxModel(sexoo));
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,11 +160,25 @@ public class AlterarAnimal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarActionPerformed
-        // TODO add your handling code here:
+        AnimalControle ac = new AnimalControle();
+
+        this.animal.setNome(nome.getText());
+        this.animal.setRaca(raca.getText());
+        // this.animal.setSexo(sexo.getText());
+        this.animal.setSexo(sexo.getSelectedItem().toString());
+        this.animal.setIdade(Integer.parseInt(idade.getText()));
+
+        ac.alterar(this.animal);
+
+        JOptionPane.showMessageDialog(null, "Animal alterado com sucesso!");
+        this.setVisible(false);
+        this.verAnimal.carregarTabela();
     }//GEN-LAST:event_alterarActionPerformed
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
-        // TODO add your handling code here:
+        nome.setText("");
+        idade.setText("");
+        raca.setText("");
     }//GEN-LAST:event_limparActionPerformed
 
     private void sexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexoActionPerformed

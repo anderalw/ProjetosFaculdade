@@ -1,10 +1,64 @@
 package Tela;
 
+import Controle.AnimalControle;
+import Controle.ServicoControle;
+import Controle.TipoServicoControle;
+import Entidade.Animal;
+import Entidade.Cliente;
+import Entidade.Servico;
+import Entidade.TipoServico;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 public class AlterarServico extends javax.swing.JFrame {
+
+    Servico servicoA = null;
+    ServicoTela servicoTela = null;
 
     public AlterarServico() {
         initComponents();
+        this.setarServico();
+        this.setarAnimais();
+    }
 
+    public AlterarServico(Servico servico, ServicoTela servicoTela) {
+        initComponents();
+        this.servicoA = servico;
+        this.servicoTela = servicoTela;
+        this.setarServico();
+        this.setarAnimais();
+        this.horario.setText(servico.getHorario());
+        this.data.setText(servico.getData());
+    }
+
+    public void setarServico() {
+        this.cliente.setText(servicoA.getNomeDonoAnimal());
+        TipoServicoControle tsc = new TipoServicoControle();
+
+        List<TipoServico> tipos = tsc.listar();
+
+        String[] listaServico = new String[tipos.size()];
+        int cont1 = 0;
+        for (TipoServico servico : tipos) {
+            listaServico[cont1++] = servico.getNome();
+        }
+        this.servico.setModel(new javax.swing.DefaultComboBoxModel(listaServico));
+
+    }
+
+    public void setarAnimais() {
+        AnimalControle ac = new AnimalControle();
+
+        Cliente cliente = ac.buscarODono(servicoA.getId_animal());
+
+        List<Animal> listaAnimais = ac.listar(cliente.getId());
+
+        String[] animais = new String[listaAnimais.size()];
+        int cont = 0;
+        for (Animal animai : listaAnimais) {
+            animais[cont++] = animai.getNome();
+        }
+        this.animal.setModel(new javax.swing.DefaultComboBoxModel(animais));
     }
 
     @SuppressWarnings("unchecked")
@@ -126,11 +180,21 @@ public class AlterarServico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
-
+        horario.setText("");
     }//GEN-LAST:event_limparActionPerformed
 
     private void alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarActionPerformed
+        ServicoControle sc = new ServicoControle();
 
+        this.servicoA.setNomeServico(servico.getSelectedItem().toString());
+        this.servicoA.setNomeAnimal(animal.getSelectedItem().toString());
+        this.servicoA.setHorario(horario.getText());
+        this.servicoA.setData(data.getText());
+
+        sc.alterar(servicoA);
+        JOptionPane.showMessageDialog(null, "Serviço alterado com sucesso!");
+        this.setVisible(false);
+        this.servicoTela.listarTabela();
     }//GEN-LAST:event_alterarActionPerformed
 
     private void animalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animalActionPerformed

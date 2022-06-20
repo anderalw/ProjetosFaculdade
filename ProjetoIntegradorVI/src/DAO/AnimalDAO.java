@@ -6,11 +6,12 @@ import Apoio.Conexao;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnimalDAO implements InterfaceDAO<Animal> {
 
     @Override
-    public String inserir(Animal animal) {
+    public Boolean inserir(Animal animal) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
@@ -18,24 +19,24 @@ public class AnimalDAO implements InterfaceDAO<Animal> {
             String sql = "insert into animal values (default, '"
                     + animal.getNome() + "','"
                     + animal.getRaca() + "','"
-                    + animal.getEspecie() + "','"
-                    + animal.getIdade() + "','"
-                    + animal.getIdDono() + "','"
-                    + animal.getSexo() + "',')";
+                    + animal.getEspecie() + "',"
+                    + animal.getIdade() + ","
+                    + animal.getIdDono() + ",'"
+                    + animal.getSexo() + "')";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
 
-            return null;
+            return true;
 
         } catch (Exception e) {
-            System.out.println("Erro ao enserir Animal: " + e);
-            return e.toString();
+            System.out.println("Erro ao inserir Cliente: " + e);
+            return false;
         }
     }
 
     @Override
-    public String alterar(Animal animal) {
+    public Boolean alterar(Animal animal) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
@@ -48,22 +49,22 @@ public class AnimalDAO implements InterfaceDAO<Animal> {
 
             int retorno = st.executeUpdate(sql);
 
-            return null;
+            return true;
 
         } catch (Exception e) {
             System.out.println("Erro ao atualizar o Animal: " + e);
-            return e.toString();
+            return false;
         }
     }
 
-    public ArrayList<Animal> listar(int idDono) {
-        ArrayList<Animal> animais = new ArrayList<Animal>();
+    public List<Animal> listar(int idDono) {
+        ArrayList<Animal> lista = new ArrayList<Animal>();
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
-            String sql = "select * from animal where id_cliente = " 
+            String sql = "select * from animal where id_cliente = "
                     + idDono + " order by id_animal";
-
+            System.out.println("SQL: " + sql);
             ResultSet retorno = st.executeQuery(sql);
             while (retorno.next()) {
                 Animal animal = new Animal();
@@ -75,14 +76,14 @@ public class AnimalDAO implements InterfaceDAO<Animal> {
                 animal.setIdDono(retorno.getInt("id_cliente"));
                 animal.setSexo(retorno.getString("sexo"));
 
-                animais.add(animal);
+                lista.add(animal);
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar Animais: " + e);
 
         }
-        return animais;
+        return lista;
 
     }
 
@@ -92,7 +93,7 @@ public class AnimalDAO implements InterfaceDAO<Animal> {
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
             String sql = "select id_cliente from animal where id_animal = " + idAnimal;
-
+            System.out.println("SQL: " + sql);
             ResultSet retorno = st.executeQuery(sql);
             while (retorno.next()) {
                 cliente.setId(retorno.getInt("id_cliente"));
@@ -134,7 +135,7 @@ public class AnimalDAO implements InterfaceDAO<Animal> {
         return animal;
     }
 
-    public String deletar(int id) {
+    public Boolean deletar(int id) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
@@ -143,16 +144,16 @@ public class AnimalDAO implements InterfaceDAO<Animal> {
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
 
-            return null;
+            return true;
 
         } catch (Exception e) {
             System.out.println("Erro ao excluir o Animal: " + e);
-            return e.toString();
+            return false;
         }
 
     }
 
-    public String detelarTodos(int idDono) {
+    public Boolean detelarTodos(int idDono) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
@@ -164,13 +165,13 @@ public class AnimalDAO implements InterfaceDAO<Animal> {
 
         } catch (Exception e) {
             System.out.println("Erro ao excluir o Animal: " + e);
-            return e.toString();
+            return false;
         }
-        return null;
+        return true;
 
     }
 
-    public ArrayList<Animal> listarTodos() {
+    public List<Animal> listarTodos() {
         ArrayList<Animal> lista = new ArrayList();
 
         try {

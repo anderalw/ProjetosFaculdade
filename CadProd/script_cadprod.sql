@@ -63,7 +63,7 @@ CREATE TABLE produto (
 -- -----------------------------------------------------
 -- Table os_item
 -- -----------------------------------------------------
-CREATE TABLE os_item (
+CREATE TABLE item_pedido (
   id SERIAL NOT NULL,
   pedido_id int NULL,
   produto_id int NULL,

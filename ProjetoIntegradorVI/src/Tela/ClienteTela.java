@@ -1,9 +1,74 @@
 package Tela;
 
+import Controle.AnimalControle;
+import Controle.ClienteControle;
+import Entidade.Cliente;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class ClienteTela extends javax.swing.JInternalFrame {
 
+    private final ClienteControle clienteC;
+    private Cliente cliente;
+
     public ClienteTela() {
+        clienteC = new ClienteControle();
+        cliente = new Cliente();
         initComponents();
+        this.carregarTabela();
+        this.setResizable(false);
+    }
+
+    public void atualizarTabela() {
+        List<Cliente> listaClientes = this.clienteC.listar();
+
+        Vector<String> colunas = new Vector<String>();
+        colunas.add("ID");
+        colunas.add("Nome");
+        colunas.add("Telefone");
+        colunas.add("Endereço");
+
+        Vector tuplas = new Vector();
+
+        for (Cliente c : listaClientes) {
+
+            Vector<Object> tupla = new Vector<Object>();
+            tupla.add(c.getId());
+            tupla.add(c.getNome());
+            tupla.add(c.getTelefone());
+            tupla.add("rua: " + c.getRua());
+            tuplas.add(tupla);
+        }
+
+        this.tabela.setModel(new DefaultTableModel(tuplas, colunas));
+
+    }
+
+    public void carregarTabela() {
+
+        List<Cliente> listaClientes = clienteC.listar();
+
+        Vector<String> colunas = new Vector<String>();
+        colunas.add("ID");
+        colunas.add("Nome");
+        colunas.add("Telefone");
+        colunas.add("Endereço");
+
+        Vector tuplas = new Vector();
+
+        for (Cliente c : listaClientes) {
+
+            Vector<Object> tupla = new Vector<Object>();
+            tupla.add(c.getId());
+            tupla.add(c.getNome());
+            tupla.add(c.getTelefone());
+            tupla.add("rua: " + c.getRua());
+            tuplas.add(tupla);
+        }
+
+        this.tabela.setModel(new DefaultTableModel(tuplas, colunas));
     }
 
     /**
@@ -116,24 +181,58 @@ public class ClienteTela extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
-        AdicionarCliente ec = new AdicionarCliente();
+        AdicionarCliente ec = new AdicionarCliente(this);
         ec.setVisible(true);
 
     }//GEN-LAST:event_adicionarActionPerformed
 
     private void alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarActionPerformed
-        AlterarCliente ac = new AlterarCliente();
-        ac.setVisible(true);
+
+        if (this.tabela.getModel().getValueAt(this.tabela.getSelectedRow(), 0) == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecione um cliente!");
+        } else {
+
+            int id = (int) this.tabela.getModel().getValueAt(this.tabela.getSelectedRow(), 0);
+
+            this.cliente = this.clienteC.buscarUm(id);
+
+            AlterarCliente ac = new AlterarCliente(cliente, this);
+        }
     }//GEN-LAST:event_alterarActionPerformed
 
     private void verAnimaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verAnimaisActionPerformed
-        VerAnimal v = new VerAnimal();
-        v.setVisible(true);
+        String idTabela = String.valueOf(tabela.getValueAt(tabela.getSelectedRow(), 0));
+        if (idTabela == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecione um cliente!");
+        } else {
+            int idCliente = Integer.parseInt(idTabela);
 
+            Cliente clienteId = new ClienteControle().buscarUm(idCliente);
+
+            VerAnimal va  = new VerAnimal(clienteId);
+            va.setVisible(true);
+        }
     }//GEN-LAST:event_verAnimaisActionPerformed
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
+        if (this.tabela.getModel().getValueAt(this.tabela.getSelectedRow(), 0) == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecione um cliente!");
+        } else {
+            //RECEBO O VALOR DA COLUNA ZERO(Onde está o ID) DA TUPLA SELECIONADA 
+            int id = (int) this.tabela.getModel().getValueAt(this.tabela.getSelectedRow(), 0);
 
+            AnimalControle animalC = new AnimalControle();
+
+            animalC.deletarTodos(id);
+
+            String nome = (String) this.tabela.getModel().getValueAt(this.tabela.getSelectedRow(), 1);
+            int resultado = JOptionPane.showConfirmDialog(null, "Deseja realmente exlcuir o cliente " + nome + "?");
+            if (resultado == 0) {
+                this.clienteC.deletar(id);
+                JOptionPane.showMessageDialog(null, "Cliente deletado com sucesso");
+            }
+            this.carregarTabela();
+        }
     }//GEN-LAST:event_excluirActionPerformed
 
 

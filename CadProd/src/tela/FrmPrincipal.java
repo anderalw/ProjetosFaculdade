@@ -4,6 +4,16 @@
  */
 package tela;
 
+import apoio.ConexaoBD;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author ander
@@ -42,6 +52,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -106,6 +124,45 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setText("Relatórios");
+
+        jMenuItem7.setText("Listagem Fornecedor");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem7);
+        jMenu4.add(jSeparator4);
+
+        jMenuItem8.setText("Listagem Produto");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem8);
+        jMenu4.add(jSeparator5);
+
+        jMenuItem9.setText("Listagem Compras");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem9);
+        jMenu4.add(jSeparator6);
+
+        jMenuItem10.setText("Compras por Forncedor");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem10);
+
+        jMenuBar1.add(jMenu4);
+
         jMenu2.setText("Ajuda");
 
         jMenuItem2.setText("Sair");
@@ -166,6 +223,52 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ifrCompra.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        try {
+            // Compila o relatorio
+            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/cadprod_forn.jrxml"));
+
+            // Mapeia campos de parametros para o relatorio, mesmo que nao existam
+            Map parametros = new HashMap();
+
+            // Executa relatoio
+            JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, ConexaoBD.getInstance().getConnection());
+
+            // Exibe resultado em video
+            JasperViewer.viewReport(impressao, false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório: " + e);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        try {
+            // Compila o relatorio
+            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/cadprod_prod.jrxml"));
+
+            // Mapeia campos de parametros para o relatorio, mesmo que nao existam
+            Map parametros = new HashMap();
+
+            // Executa relatoio
+            JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, ConexaoBD.getInstance().getConnection());
+
+            // Exibe resultado em video
+            JasperViewer.viewReport(impressao, false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório: " + e);
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        DlgRelCompra dlgRelCompra = new DlgRelCompra(this, true);
+        dlgRelCompra.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        DlgRelComForn dlgRelComForn = new DlgRelComForn(this, true);
+        dlgRelComForn.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -207,15 +310,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     // End of variables declaration//GEN-END:variables
 }

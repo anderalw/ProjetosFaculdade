@@ -1,10 +1,20 @@
 package Tela;
 
+import Controle.TipoServicoControle;
+import Entidade.TipoServico;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+
 public class AdicionarTipoServico extends javax.swing.JFrame {
 
-    public AdicionarTipoServico() {
-        initComponents();
+    private ListaServico ls;
 
+    public AdicionarTipoServico() {
+    }
+
+    public AdicionarTipoServico(ListaServico listaServico) {
+        initComponents();
+        this.ls = listaServico;
     }
 
     /**
@@ -77,7 +87,35 @@ public class AdicionarTipoServico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        Locale.setDefault(Locale.US);
+        
+        TipoServicoControle tsc = new TipoServicoControle();
+        
+        TipoServico ts = new TipoServico();
+        
+        ts.setNome(servico.getText());
+        ts.setValor(Float.parseFloat(preco.getText()));
+        
+        if(tsc.inserir(ts)){
+            
+            JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso!!!");
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Erro no cadastro do serviço!!!");
+        }
+            
+       
+        
+        //IMPLEMENTAR ACIMA     IMPLEMENTAR ACIMA       IMPLEMENTAR ACIMA       IMPLEMENTAR ACIMA       IMPLEMENTAR ACIMA
+        int dec = JOptionPane.showConfirmDialog(null, "Deseja adicionar outro tipo de serviço?");
+        if(dec==0){
+            servico.setText("");
+            preco.setText("");
+        }else{
+            this.setVisible(false);
+        }
+        
+        this.ls.listarNaTabela();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

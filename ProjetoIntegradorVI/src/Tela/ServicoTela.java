@@ -1,9 +1,23 @@
 package Tela;
 
+import Controle.AnimalControle;
+import Controle.ClienteControle;
+import Controle.ServicoControle;
+import Entidade.Servico;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class ServicoTela extends javax.swing.JInternalFrame {
+
+    ServicoControle sc;
 
     public ServicoTela() {
         initComponents();
+        sc = new ServicoControle();
+        this.listarTabela();
+        this.setResizable(false);
     }
 
     /**
@@ -127,22 +141,77 @@ public class ServicoTela extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void listarTabela() {
+        List<Servico> listaServicoss = this.sc.listar();
+
+        Vector<String> colunas = new Vector<String>();
+        colunas.add("ID");
+        colunas.add("Cliente");
+        colunas.add("Animal");
+        colunas.add("Serviço");
+        colunas.add("Horario");
+        colunas.add("Data");
+        colunas.add("Finalizado");
+
+        Vector tuplas = new Vector();
+
+        for (Servico servicos : listaServicoss) {
+
+            Vector<Object> tupla = new Vector<Object>();
+
+            tupla.add(servicos.getId());
+            tupla.add(servicos.getNomeDonoAnimal());
+            tupla.add(servicos.getNomeAnimal());
+            tupla.add(servicos.getNomeServico());
+            tupla.add(servicos.getHorario());
+            tupla.add(servicos.getData());
+            if (servicos.isFinalizado()) {
+                tupla.add("Finalizado");
+            } else {
+                tupla.add("Em andamento");
+            }
+
+            tuplas.add(tupla);
+        }
+
+        this.tabelaServicos.setModel(new DefaultTableModel(tuplas, colunas));
 
     }
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
-        AdicionarServico as = new AdicionarServico();
+        ClienteControle cc = new ClienteControle();
+        AnimalControle ac = new AnimalControle();
+
+        AdicionarServico as = new AdicionarServico(cc.listar(), this);
         as.setVisible(true);
 
     }//GEN-LAST:event_adicionarActionPerformed
 
     private void alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarActionPerformed
-        AlterarServico at = new AlterarServico();
-        at.setVisible(true);
+        ServicoControle sc = new ServicoControle();
+
+        int id = (int) this.tabelaServicos.getModel().getValueAt(this.tabelaServicos.getSelectedRow(), 0);
+        Servico servico = sc.listarUm(id);
+
+        AlterarServico as = new AlterarServico(servico, this);
+        as.setVisible(true);
     }//GEN-LAST:event_alterarActionPerformed
 
     private void finalizarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalizarServicoActionPerformed
+        int id = (int) this.tabelaServicos.getModel().getValueAt(this.tabelaServicos.getSelectedRow(), 0);
 
+        if (this.sc.verificaFinalizacao(id)) {
+
+            int resultado = JOptionPane.showConfirmDialog(this, "Deseja realmente finalizar este serviço?");
+            if (resultado == 0) {
+                this.sc.finalizarServico(id);
+                JOptionPane.showMessageDialog(this, "Serviço finalizado com sucesso!");
+            }
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Este serviço já foi finalizado");
+        }
+
+        this.listarTabela();
     }//GEN-LAST:event_finalizarServicoActionPerformed
 
     private void tipoDeServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoDeServicosActionPerformed
@@ -151,8 +220,14 @@ public class ServicoTela extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tipoDeServicosActionPerformed
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
+        int id = (int) this.tabelaServicos.getModel().getValueAt(this.tabelaServicos.getSelectedRow(), 0);
 
-
+        int resultado = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir este serviço?");
+        if (resultado == 0) {
+            this.sc.deletar(id);
+            JOptionPane.showMessageDialog(null, "Serviço excluido com sucesso");
+        }
+        this.listarTabela();
     }//GEN-LAST:event_excluirActionPerformed
 
 

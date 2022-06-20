@@ -1,9 +1,32 @@
 package Tela;
 
+import Apoio.Formatacao;
+import Controle.ClienteControle;
+import Entidade.Cliente;
+import javax.swing.JOptionPane;
+
 public class AlterarCliente extends javax.swing.JFrame {
 
+    Cliente cliente;
+    ClienteTela clienteTela;
+
     public AlterarCliente() {
+    }
+
+    public AlterarCliente(Cliente cliente, ClienteTela clienteTela) {
         initComponents();
+        Formatacao.formatarTelefone(telefone);
+        Formatacao.formatarCEP(cep);
+        this.cliente = cliente;
+
+        nome.setText(cliente.getNome());
+        telefone.setText(cliente.getTelefone());
+        rua.setText(cliente.getRua());
+        bairro.setText(cliente.getBairro());
+        cep.setText(cliente.getCep());
+        numero.setText(Integer.toString(cliente.getNumero()));
+        this.clienteTela = clienteTela;
+        this.setVisible(true);
 
     }
 
@@ -19,7 +42,6 @@ public class AlterarCliente extends javax.swing.JFrame {
         nome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        telefone = new javax.swing.JTextField();
         labelRua = new javax.swing.JLabel();
         limpar = new javax.swing.JButton();
         alterar = new javax.swing.JButton();
@@ -27,9 +49,10 @@ public class AlterarCliente extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         bairro = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        cep = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         numero = new javax.swing.JTextField();
+        telefone = new javax.swing.JFormattedTextField();
+        cep = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -93,17 +116,17 @@ public class AlterarCliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(nome, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                    .addComponent(telefone, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                     .addComponent(rua)
                     .addComponent(bairro)
-                    .addComponent(cep)
-                    .addComponent(numero))
-                .addContainerGap(99, Short.MAX_VALUE))
+                    .addComponent(numero)
+                    .addComponent(telefone)
+                    .addComponent(cep))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -139,11 +162,29 @@ public class AlterarCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
-
+        nome.setText("");
+        telefone.setText("");
+        rua.setText("");
+        bairro.setText("");
+        cep.setText("");
+        numero.setText("");
     }//GEN-LAST:event_limparActionPerformed
 
     private void alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarActionPerformed
+        ClienteControle clienteController = new ClienteControle();
 
+        cliente.setNome(nome.getText());
+        cliente.setTelefone(telefone.getText());
+        cliente.setRua(rua.getText());
+        cliente.setBairro(bairro.getText());
+        cliente.setCep(cep.getText());
+        cliente.setNumero(Integer.parseInt(numero.getText()));
+
+        clienteController.alterar(this.cliente);
+        JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!");
+
+        this.setVisible(false);
+        this.clienteTela.carregarTabela();
     }//GEN-LAST:event_alterarActionPerformed
 
     private void bairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bairroActionPerformed
@@ -164,7 +205,7 @@ public class AlterarCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton alterar;
     private javax.swing.JTextField bairro;
-    private javax.swing.JTextField cep;
+    private javax.swing.JFormattedTextField cep;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -175,6 +216,6 @@ public class AlterarCliente extends javax.swing.JFrame {
     private javax.swing.JTextField nome;
     private javax.swing.JTextField numero;
     private javax.swing.JTextField rua;
-    private javax.swing.JTextField telefone;
+    private javax.swing.JFormattedTextField telefone;
     // End of variables declaration//GEN-END:variables
 }

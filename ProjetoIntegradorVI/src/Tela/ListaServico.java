@@ -1,10 +1,72 @@
 package Tela;
 
+import Controle.TipoServicoControle;
+import Entidade.TipoServico;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class ListaServico extends javax.swing.JFrame {
 
-    public ListaServico() {
-        initComponents();
+    private TipoServicoControle tsc;
+    private TipoServico tipoServico;
 
+    public ListaServico() {
+        this.tipoServico = new TipoServico();
+        this.tsc = new TipoServicoControle();
+        initComponents();
+        this.listarNaTabela();
+    }
+
+    public void listarNaTabela() {
+
+        List<TipoServico> lista = tsc.listar();
+
+        Vector<String> colunas = new Vector<String>();
+        colunas.add("ID");
+        colunas.add("SERVIÇO");
+        colunas.add("PREÇO");
+
+        Vector tuplas = new Vector();
+
+        for (TipoServico c : lista) {
+
+            Vector<Object> tupla = new Vector<Object>();
+
+            tupla.add(c.getId_servico());
+            tupla.add(c.getNome());
+            tupla.add(c.getValor());
+
+            tuplas.add(tupla);
+        }
+
+        this.jTable1.setModel(new DefaultTableModel(tuplas, colunas));
+    }
+
+    public void carregarTabela() {
+
+        List<TipoServico> lista = tsc.listar();
+
+        Vector<String> colunas = new Vector<String>();
+        colunas.add("ID");
+        colunas.add("SERVIÇO");
+        colunas.add("PREÇO");
+
+        Vector tuplas = new Vector();
+
+        for (TipoServico c : lista) {
+
+            Vector<Object> tupla = new Vector<Object>();
+
+            tupla.add(c.getId_servico());
+            tupla.add(c.getNome());
+            tupla.add(c.getValor());
+
+            tuplas.add(tupla);
+        }
+
+        this.jTable1.setModel(new DefaultTableModel(tuplas, colunas));
     }
 
     /**
@@ -106,17 +168,34 @@ public class ListaServico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
-        AdicionarTipoServico ats = new AdicionarTipoServico();
+        AdicionarTipoServico ats = new AdicionarTipoServico(this);
         ats.setVisible(true);
     }//GEN-LAST:event_adicionarActionPerformed
 
     private void alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarActionPerformed
-        AlterarTipoServico as = new AlterarTipoServico();
-        as.setVisible(true);
+        int id_tipoServico = (int) this.jTable1.getModel().getValueAt(this.jTable1.getSelectedRow(), 0);
+
+        this.tipoServico = this.tsc.buscarPorId(id_tipoServico);
+
+        AlterarTipoServico ats = new AlterarTipoServico(this.tipoServico, this);
+        ats.setVisible(true);
     }//GEN-LAST:event_alterarActionPerformed
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
+        int id_tipoServico = (int) this.jTable1.getModel().getValueAt(this.jTable1.getSelectedRow(), 0);
 
+        String nome = (String) this.jTable1.getModel().getValueAt(this.jTable1.getSelectedRow(), 1);
+        int resultado = JOptionPane.showConfirmDialog(null, "Deseja realmente exlcuir o serviço de " + nome + "?");
+        if (resultado == 0) {
+
+            if (this.tsc.deletar(id_tipoServico)) {
+
+                JOptionPane.showMessageDialog(null, "Serviço excluido com Sucesso!!!");
+                this.carregarTabela();;
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao excluir Serviço!!!");
+            }
+        }
 
     }//GEN-LAST:event_excluirActionPerformed
 

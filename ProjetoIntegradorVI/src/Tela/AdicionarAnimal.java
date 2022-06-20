@@ -1,9 +1,37 @@
 package Tela;
 
+import Controle.AnimalControle;
+import Entidade.Animal;
+import javax.swing.JOptionPane;
+
 public class AdicionarAnimal extends javax.swing.JFrame {
 
+    private AnimalControle ac = new AnimalControle();
+    private int idDono;
+    private VerAnimal verAnimal;
+
     public AdicionarAnimal() {
+    }
+
+    public AdicionarAnimal(int id, String nome, VerAnimal verAnimal) {
         initComponents();
+        this.comboBox();
+        this.idDono = id;
+        this.cliente.setText(nome);
+        this.verAnimal = verAnimal;
+    }
+
+    public AdicionarAnimal(int id, String nome) {
+        initComponents();
+        this.comboBox();
+        this.idDono = id;
+        this.cliente.setText(nome);
+    }
+
+    public void comboBox() {
+        String[] sexoo = {"M", "F"};
+
+        this.sexo.setModel(new javax.swing.DefaultComboBoxModel(sexoo));
 
     }
 
@@ -144,11 +172,33 @@ public class AdicionarAnimal extends javax.swing.JFrame {
 
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
-
+        nome.setText("");
+        especie.setText("");
+        idade.setText("");
     }//GEN-LAST:event_limparActionPerformed
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+        Animal animal = new Animal();
 
+        animal.setNome(nome.getText());
+        animal.setRaca(raca.getText());
+        animal.setSexo(sexo.getSelectedItem().toString());
+        animal.setIdade(Integer.parseInt(idade.getText()));
+        animal.setEspecie(especie.getText());
+        animal.setIdDono(this.idDono);
+        this.ac.inserir(animal);
+
+        JOptionPane.showMessageDialog(null, "Animal adicionado com sucesso!");
+        int dec = JOptionPane.showConfirmDialog(null, "Deseja adicionar outro animal?");
+        if (dec == 0) {
+            nome.setText("");
+            especie.setText("");
+            raca.setText("");
+            idade.setText("");
+        } else {
+            this.setVisible(false);
+        }
+        this.verAnimal.carregarTabela();
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void sexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexoActionPerformed

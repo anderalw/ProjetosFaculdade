@@ -1,10 +1,30 @@
 package Tela;
 
+import Controle.TipoServicoControle;
+import Entidade.TipoServico;
+import java.awt.GraphicsConfiguration;
+import javax.swing.JOptionPane;
+
 public class AlterarTipoServico extends javax.swing.JFrame {
 
-    public AlterarTipoServico() {
-        initComponents();
+    public AlterarTipoServico(GraphicsConfiguration gc) {
+        super(gc);
+    }
 
+    private TipoServicoControle tsc;
+    private ListaServico listaServico;
+    private TipoServico ts;
+
+    public AlterarTipoServico() {
+    }
+
+    public AlterarTipoServico(TipoServico tipoServico, ListaServico listaServico) {
+        initComponents();
+        this.ts = tipoServico;
+        tsc = new TipoServicoControle();
+        servico.setText(ts.getNome());
+        servico1.setText(Float.toString(ts.getValor()));
+        this.listaServico = listaServico;
     }
 
     /**
@@ -78,6 +98,17 @@ public class AlterarTipoServico extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        this.ts.setNome(this.servico.getText());
+        this.ts.setValor(Float.parseFloat(this.servico1.getText()));
+        this.ts.setId_servico(ts.getId_servico());
+
+        if (this.tsc.alterar(ts)) {
+            JOptionPane.showMessageDialog(null, "Serviço alterado com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Falha na alteração!");
+        }
+        this.setVisible(false);
+        this.listaServico.carregarTabela();;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -1,11 +1,22 @@
 package Tela;
 
+import Apoio.Formatacao;
+import Controle.ClienteControle;
+import Entidade.Cliente;
+import javax.swing.JOptionPane;
+
 public class AdicionarCliente extends javax.swing.JFrame {
 
     private ClienteTela cliente;
 
     public AdicionarCliente() {
+    }
+
+    public AdicionarCliente(ClienteTela cliente) {
         initComponents();
+        Formatacao.formatarCEP(cep);
+        Formatacao.formatarTelefone(telefone);
+        this.cliente = cliente;
 
     }
 
@@ -27,11 +38,11 @@ public class AdicionarCliente extends javax.swing.JFrame {
         bairro = new javax.swing.JTextField();
         limpar = new javax.swing.JButton();
         cadastrar = new javax.swing.JButton();
-        cep = new javax.swing.JTextField();
         labelNumero = new javax.swing.JLabel();
         numero = new javax.swing.JTextField();
         labelTelefone = new javax.swing.JLabel();
-        telefone = new javax.swing.JTextField();
+        cep = new javax.swing.JFormattedTextField();
+        telefone = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -74,50 +85,34 @@ public class AdicionarCliente extends javax.swing.JFrame {
         labelTelefone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         labelTelefone.setText("Telefone:");
 
-        telefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telefoneActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelNome)
+                    .addComponent(labelRua)
+                    .addComponent(labelBairro)
+                    .addComponent(labelCep)
+                    .addComponent(labelNumero)
+                    .addComponent(labelTelefone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nome, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                    .addComponent(numero)
+                    .addComponent(cep)
+                    .addComponent(bairro)
+                    .addComponent(rua, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                    .addComponent(telefone))
+                .addContainerGap(89, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(148, 148, 148)
                 .addComponent(limpar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(119, 119, 119))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelNumero)
-                            .addComponent(labelTelefone)
-                            .addComponent(labelCep)
-                            .addComponent(labelBairro))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(numero)
-                            .addComponent(telefone)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(labelNome)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelRua)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(bairro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                            .addComponent(cep, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(rua, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addGap(100, 100, 100))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,15 +137,15 @@ public class AdicionarCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNumero)
                     .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(labelTelefone)
                     .addComponent(telefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(limpar)
                     .addComponent(cadastrar))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(516, 329));
@@ -158,16 +153,48 @@ public class AdicionarCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
+        nome.setText("");
+        rua.setText("");
+        bairro.setText("");
+        telefone.setText("");
+        numero.setText("");
+        cep.setText("");
 
     }//GEN-LAST:event_limparActionPerformed
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+        ClienteControle controler = new ClienteControle();
 
+        Cliente cliente = new Cliente();
+
+        cliente.setNome(nome.getText());
+        cliente.setTelefone(telefone.getText());
+        cliente.setRua(rua.getText());
+        cliente.setCep(cep.getText());
+        cliente.setNumero(Integer.parseInt(numero.getText()));
+        cliente.setBairro(bairro.getText());
+
+        if (controler.inserir(cliente)) {
+
+            JOptionPane.showMessageDialog(null, "Dados inseridos com Sucesso!!!");
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Erro na inserção dos Dados !!!");
+        }
+
+        //depois de cadastrar
+        int decisao = JOptionPane.showConfirmDialog(null, "Você deseja adicionar ANIMAIS(PET)");
+        ClienteControle cd = new ClienteControle();
+        if (decisao == 0) {
+            AdicionarAnimal aa = new AdicionarAnimal(cd.buscarUltimoId(), cliente.getNome());
+            this.setVisible(false);
+            aa.setVisible(true);
+        } else {
+            this.setVisible(false);
+        }
+        this.cliente.carregarTabela();
     }//GEN-LAST:event_cadastrarActionPerformed
-
-    private void telefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_telefoneActionPerformed
 
     private void bairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bairroActionPerformed
         // TODO add your handling code here:
@@ -188,7 +215,7 @@ public class AdicionarCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bairro;
     private javax.swing.JButton cadastrar;
-    private javax.swing.JTextField cep;
+    private javax.swing.JFormattedTextField cep;
     private javax.swing.JLabel labelBairro;
     private javax.swing.JLabel labelCep;
     private javax.swing.JLabel labelNome;
@@ -199,6 +226,6 @@ public class AdicionarCliente extends javax.swing.JFrame {
     private javax.swing.JTextField nome;
     private javax.swing.JTextField numero;
     private javax.swing.JTextField rua;
-    private javax.swing.JTextField telefone;
+    private javax.swing.JFormattedTextField telefone;
     // End of variables declaration//GEN-END:variables
 }

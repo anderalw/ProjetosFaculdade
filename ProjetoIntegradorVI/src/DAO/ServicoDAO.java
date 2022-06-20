@@ -5,39 +5,39 @@ import Apoio.Conexao;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServicoDAO implements InterfaceDAO<Servico> {
 
     @Override
-    public String inserir(Servico servico) {
+    public Boolean inserir(Servico servico) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
             String sql = "insert into participa values (default, '"
                     + servico.getData() + "','"
                     + servico.getHorario() + "','"
-                    + servico.getCusto() + "','"
-                    + servico.getPrecoServico() + "','"
+                    + servico.getPrecoServico()+ "','"
+                    + servico.getCusto()+ "','"
                     + servico.getId_animal() + "','"
                     + servico.getNomeAnimal() + "','"
                     + servico.getNomeDonoAnimal() + "','"
                     + servico.getId_tipoServico() + "','"
                     + servico.getNomeServico() + "','"
-                    + servico.isFinalizado() + "',')";
+                    + servico.isFinalizado() + "')";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
-
-            return null;
+            return true;
 
         } catch (Exception e) {
-            System.out.println("Erro ao enserir Serviço: " + e);
-            return e.toString();
+            System.out.println("Erro ao inserir Cliente: " + e);
+            return false;
         }
     }
 
     @Override
-    public String alterar(Servico servico) {
+    public Boolean alterar(Servico servico) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
@@ -50,17 +50,17 @@ public class ServicoDAO implements InterfaceDAO<Servico> {
 
             int retorno = st.executeUpdate(sql);
 
-            return null;
+            return true;
 
         } catch (Exception e) {
             System.out.println("Erro ao atualizar a Serviço: " + e);
-            return e.toString();
+            return false;
         }
     }
 
-    public ArrayList<Servico> listar() {
+    public List<Servico> listar() {
 
-        ArrayList<Servico> lista = new ArrayList<Servico>();
+        List<Servico> lista = new ArrayList<Servico>();
 
         ResultSet rs;
 
@@ -100,7 +100,7 @@ public class ServicoDAO implements InterfaceDAO<Servico> {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
-            String sql = "select * from participa where id_participa = " 
+            String sql = "select * from participa where id_participa = "
                     + idServico + "order by id_participa";
             System.out.println("SQL: " + sql);
             ResultSet retorno = st.executeQuery(sql);
@@ -127,7 +127,7 @@ public class ServicoDAO implements InterfaceDAO<Servico> {
     }
 
     @Override
-    public String deletar(int id) {
+    public Boolean deletar(int id) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
@@ -135,11 +135,11 @@ public class ServicoDAO implements InterfaceDAO<Servico> {
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
 
-            return null;
+            return true;
 
         } catch (Exception e) {
             System.out.println("Erro ao excluir o Serviço: " + e);
-            return e.toString();
+            return false;
         }
     }
 
@@ -147,7 +147,7 @@ public class ServicoDAO implements InterfaceDAO<Servico> {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
-            String sql = "update participa set(finalizado) = " + true + " where id_participa=  " + id;
+            String sql = "update participa set finalizado = " + true + " where id_participa=  " + id;
 
             int retorno = st.executeUpdate(sql);
 

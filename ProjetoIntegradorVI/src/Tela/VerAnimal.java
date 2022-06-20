@@ -1,9 +1,81 @@
 package Tela;
 
+import Controle.AnimalControle;
+import Entidade.Animal;
+import Entidade.Cliente;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class VerAnimal extends javax.swing.JFrame {
 
+    private AnimalControle ac;
+
+    private Cliente infoCliente;
+    private int modo;
+
     public VerAnimal() {
+    }
+
+    public VerAnimal(Cliente infoCliente) {
         initComponents();
+        ac = new AnimalControle();
+        this.infoCliente = infoCliente;
+
+        cliente.setText(this.infoCliente.getNome());
+        id.setText(String.valueOf(this.infoCliente.getId()));
+
+        this.listarNaTabela();
+    }
+
+    public void carregarTabela() {
+        List<Animal> lista = this.ac.listar(infoCliente.getId());
+
+        Vector<String> nomeColunas = new Vector<String>();
+
+        nomeColunas.add("ID");
+        nomeColunas.add("Nome");
+        nomeColunas.add("Sexo");
+        nomeColunas.add("Raça");
+
+        Vector<Object> tuplas = new Vector<Object>();
+
+        for (Animal animal : lista) {
+
+            Vector<Object> tupla = new Vector<Object>();
+
+            tupla.add(animal.getId());
+            tupla.add(animal.getNome());
+            tupla.add(animal.getSexo());
+            tupla.add(animal.getRaca());
+            tuplas.add(tupla);
+        }
+        
+            
+    }
+    private void listarNaTabela() {
+        List<Animal> listaDeAnimais = this.ac.listar(infoCliente.getId());
+
+        Vector<String> colunas = new Vector<String>();
+        colunas.add("ID");
+        colunas.add("Nome");
+        colunas.add("Sexo");
+        colunas.add("Raça");
+
+        Vector tuplas = new Vector();
+
+        for (Animal c : listaDeAnimais) {
+
+            Vector<Object> tupla = new Vector<Object>();
+            tupla.add(c.getId());
+            tupla.add(c.getNome());
+            tupla.add(c.getSexo());
+            tupla.add(c.getRaca());
+            tuplas.add(tupla);
+        }
+
+        this.tabelaAnimais.setModel(new DefaultTableModel(tuplas, colunas));
     }
 
     @SuppressWarnings("unchecked")
@@ -111,17 +183,35 @@ public class VerAnimal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
-        AdicionarAnimal ada = new AdicionarAnimal();
-        ada.setVisible(true);
+        AdicionarAnimal adicionarA = new AdicionarAnimal(infoCliente.getId(), infoCliente.getNome(), this);
+        adicionarA.setVisible(true);
     }//GEN-LAST:event_adicionarActionPerformed
 
     private void alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarActionPerformed
-        AlterarAnimal aa = new AlterarAnimal();
-        aa.setVisible(true);
+        int id = (int) this.tabelaAnimais.getModel().getValueAt(this.tabelaAnimais.getSelectedRow(), 0);
+
+        Animal animal = this.ac.buscarUm(id);
+
+        AlterarAnimal alterarA = new AlterarAnimal(animal, this.infoCliente.getNome(), animal.getSexo(), this);
+
     }//GEN-LAST:event_alterarActionPerformed
 
     private void exlcuirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exlcuirActionPerformed
+        int id = (int) this.tabelaAnimais.getModel().getValueAt(this.tabelaAnimais.getSelectedRow(), 0);
+        int decisao = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir o animal?");
 
+        if (decisao == 0) {
+
+            if (this.ac.deletar(id)) {
+
+                JOptionPane.showMessageDialog(null, "Animal removido com sucesso!!!");
+                this.carregarTabela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha na exclusão!!!");
+            }
+        } else {
+            this.setVisible(true);
+        }
     }//GEN-LAST:event_exlcuirActionPerformed
 
     /**

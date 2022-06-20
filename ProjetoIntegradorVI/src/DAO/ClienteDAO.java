@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComboBox;
 
 public class ClienteDAO implements InterfaceDAO<Cliente> {
@@ -15,26 +16,26 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
     private PreparedStatement statment;
 
     @Override
-    public String inserir(Cliente cliente) {
+    public Boolean inserir(Cliente cliente) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
-            String sql = "insert into cliente values (default,  + '"
+            String sql = "insert into cliente values (default, '"
                     + cliente.getNome() + "','"
                     + cliente.getRua() + "','"
-                    + cliente.getTelefone() + "','"
                     + cliente.getBairro() + "','"
                     + cliente.getCep() + "','"
-                    + cliente.getNumero() + "',')";
+                    + cliente.getNumero() + "','"
+                    + cliente.getTelefone() + "')";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
 
-            return null;
+            return true;
 
         } catch (Exception e) {
-            System.out.println("Erro ao enserir Cliente: " + e);
-            return e.toString();
+            System.out.println("Erro ao inserir Cliente: " + e);
+            return false;
         }
     }
 
@@ -43,9 +44,8 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
             String sql = "select id_cliente from cliente order by id_cliente";
-            this.statment = conexao.prepareStatement(sql);
             ResultSet retorno = st.executeQuery(sql);
-
+            System.out.println("SQL: " + sql);
             while (retorno.next()) {
 
                 id = retorno.getInt("id_cliente");
@@ -59,7 +59,7 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
     }
 
     @Override
-    public String alterar(Cliente cliente) {
+    public Boolean alterar(Cliente cliente) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
@@ -71,24 +71,26 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
                     + cliente.getCep() + "' , numero = '"
                     + cliente.getNumero() + "'  where id_cliente= "
                     + cliente.getId();
-
+            System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
 
-            return null;
+            return true;
 
         } catch (Exception e) {
             System.out.println("Erro ao atualizar a cliente: " + e);
-            return e.toString();
+            return false;
         }
     }
 
-    public ArrayList<Cliente> listar() {
-        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+    public List<Cliente> listar() {
+        List<Cliente> lista = new ArrayList<Cliente>();
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
             String sql = "select * from cliente order by id_cliente";
+            System.out.println("SQL: " + sql);
             ResultSet retorno = st.executeQuery(sql);
+
             while (retorno.next()) {
 
                 Cliente cliente = new Cliente();
@@ -99,20 +101,20 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
                 cliente.setNumero(retorno.getInt("numero"));
                 cliente.setTelefone(retorno.getString("telefone"));
                 cliente.setId(retorno.getInt("id_cliente"));
-                clientes.add(cliente);
+                lista.add(cliente);
 
             }
 
         } catch (Exception e) {
-            System.out.println("Erro ao consultar Fornecedores: " + e);
+            System.out.println("Erro ao consultar Cliente: " + e);
 
         }
-        return clientes;
+        return lista;
 
     }
 
-    public ArrayList<Cliente> listar(JComboBox clientes) {
-        ArrayList<Cliente> lista = new ArrayList<Cliente>();
+    public List<Cliente> listar(JComboBox clientes) {
+        List<Cliente> lista = new ArrayList<Cliente>();
 
         Cliente clienteDefault = new Cliente();
         clienteDefault.setNome("Default");
@@ -127,6 +129,7 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
             String sql = "select * from cliente order by nome";
+            System.out.println("SQL: " + sql);
             ResultSet retorno = st.executeQuery(sql);
             while (retorno.next()) {
 
@@ -152,18 +155,18 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
     }
 
     @Override
-    public String deletar(int id) {
+    public Boolean deletar(int id) {
 
         try {
             Statement st = Conexao.getInstance().getConnection().createStatement();
             String sql = "delete from cliente where id_cliente=" + id;
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
-            return null;
+            return true;
 
         } catch (Exception e) {
-            System.out.println("Erro ao excluir o Fornecedor: " + e);
-            return e.toString();
+            System.out.println("Erro ao excluir o Cliente: " + e);
+            return false;
         }
     }
 
@@ -188,7 +191,7 @@ public class ClienteDAO implements InterfaceDAO<Cliente> {
             }
 
         } catch (Exception e) {
-            System.out.println("Erro ao consultar fornecedores: " + e);
+            System.out.println("Erro ao consultar Cliente: " + e);
 
         }
         return cliente;

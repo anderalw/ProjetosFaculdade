@@ -2,10 +2,10 @@ package DAO;
 
 public interface InterfaceDAO<T> {
 
-    public String inserir(T objeto);
+    public Boolean inserir(T objeto);
 
-    public String alterar(T objeto);
+    public Boolean alterar(T objeto);
 
-    public String deletar(int id);
+    public Boolean deletar(int id);
 
 }

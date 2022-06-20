@@ -1,0 +1,44 @@
+database name petshop;
+
+CREATE TABLE cliente (
+id_cliente serial NOT NULL PRIMARY KEY,
+nome VARCHAR(70),
+rua VARCHAR(70),
+bairro VARCHAR(30),
+cep VARCHAR(50),
+numero INTEGER,
+telefone VARCHAR(50)
+);
+ 
+CREATE TABLE animal (
+id_animal serial NOT NULL PRIMARY KEY,
+nome VARCHAR(70),
+raca VARCHAR(20),
+especie VARCHAR(20),
+idade INTEGER,
+id_cliente INTEGER,
+sexo VARCHAR(5),
+FOREIGN KEY(id_cliente) REFERENCES Cliente (id_cliente)
+);
+
+CREATE TABLE servico (
+id_servico serial NOT NULL PRIMARY KEY,
+valor FLOAT,
+nome VARCHAR(30)
+);
+
+ 
+CREATE TABLE participa(
+id_participa  serial NOT NULL PRIMARY KEY,
+data VARCHAR(70),
+horario VARCHAR(70),
+precoservico FLOAT,
+custo FLOAT,
+id_animal INTEGER,
+nomeanimal VARCHAR(50),
+nomeDono VARCHAR(50),
+id_tiposervico INTEGER,
+nomeservico VARCHAR(50),
+finalizado BOOLEAN
+);
+
